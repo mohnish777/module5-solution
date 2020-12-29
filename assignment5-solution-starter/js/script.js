@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 showLoading("#main-content");
 $ajaxUtils.sendGetRequest(
   allCategoriesUrl,
-  [...], // ***** <---- TODO: STEP 1: Substitute [...] ******
+  buildAndShowHomeHTML, // ***** <---- TODO: STEP 1: Substitute [...] ******
   true); // Explicitly setting the flag to get JSON from server processed into an object literal
 });
 // *** finish **
@@ -91,12 +91,18 @@ $ajaxUtils.sendGetRequest(
 
 // Builds HTML for the home page based on categories array
 // returned from the server.
-function buildAndShowHomeHTML (categories) {
+function buildAndShowHomeHTML (categories) { //data from server json
 
   // Load home snippet page
   $ajaxUtils.sendGetRequest(
     homeHtmlUrl,
-    function (homeHtml) {
+    function (homeHtml) { //home-snippet data
+
+    var chosenCategoryShortName = chooseRandomCategory(categories).short_name;
+    //var homeHtmlToInsertIntoMainPage =chosenCategoryShortName.short_name;
+
+    homeHtml=insertProperty(homeHtml,"randomCategoryShortName",chosenCategoryShortName)
+    insertHtml("#main-content",homeHtml)
 
       // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
       // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
